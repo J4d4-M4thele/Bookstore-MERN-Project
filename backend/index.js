@@ -1,7 +1,11 @@
 import express from 'express';
 import { PORT, mongoDBURL } from './config.js';
 import mongoose from 'mongoose';
-import  {Book } from './model/bookModel.js'
+import  { Book } from './model/bookModel.js'
+
+const app = express();
+
+app.use(express.json());
 
 mongoose.connect(mongoDBURL)
 .then (() => {
@@ -13,8 +17,6 @@ mongoose.connect(mongoDBURL)
 .catch ((err) => {
     console.log(err);
 });
-
-const app = express();
 
 app.get('/', (req,res) => {
     console.log(req);
@@ -33,13 +35,13 @@ app.post('/books', async (req, res) => {
                 message: 'Send all required fields: title, author and publishYear'
             });
         };
-        const newBook = {
+        const book= new Book({
             title: req.body.title,
             author: req.body.author,
             publishYear: req.body.publishYear
-        };
+        });
         //creating book
-        const book = await Book.create(newBook);
+        await book.save();
         return res.status(201).send(book);
     } catch (err) {
         console.log(err.message);

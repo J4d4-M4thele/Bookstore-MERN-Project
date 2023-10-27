@@ -18,10 +18,10 @@ const bookSchema = mongoose.Schema(
             type: Number,
             required: true
         }
-    }, 
+    },
     {
-        timestamps: true
+        timestamps: true,
     }
 );
 
-const Book = mongoose.model('Book', bookSchema);
+export const Book = mongoose.model('Book', bookSchema);
